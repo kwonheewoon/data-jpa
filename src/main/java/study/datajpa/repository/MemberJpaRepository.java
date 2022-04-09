@@ -1,6 +1,7 @@
 package study.datajpa.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.entity.Member;
@@ -43,5 +44,11 @@ public class MemberJpaRepository {
 
     public Member find(Long id){
         return em.find(Member.class, id);
+    }
+
+    int bulkAgePlus(int age){
+        return em.createQuery("update Member m set m.age = m.age + 1 where m.age >= :age")
+                .setParameter("age",age)
+                .executeUpdate();
     }
 }
